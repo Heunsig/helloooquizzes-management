@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="display-4 mb-4">Game - <a href="{{ url_for('my_game_detail', game_id=game.id)}}">{{ game.name }}</a></h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+        {{ form.question.label(class="form-control-label") }}
+        {{ form.question(class="form-control form-control-lg") }}
+      </fieldset>
+      <div class="form-row">
+        <div class="col">
+          <fieldset class="form-group">
+            {{ form.example_1.label(class="form-control-label") }}
+            {{ form.example_1(class="form-control form-control-lg") }}
+            <div class="custom-control custom-checkbox">
+              {{ form.correct_answer_1(class="custom-control-input") }}
+              {{ form.correct_answer_1.label(class="custom-control-label") }}
+            </div>
+          </fieldset>
+        </div>
+        <div class="col">
+          <fieldset class="form-group">
+            {{ form.example_2.label(class="form-control-label") }}
+            {{ form.example_2(class="form-control form-control-lg") }}
+            <div class="custom-control custom-checkbox">
+              {{ form.correct_answer_2(class="custom-control-input") }}
+              {{ form.correct_answer_2.label(class="custom-control-label") }}
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col">
+          <fieldset class="form-group">
+            {{ form.example_3.label(class="form-control-label") }}
+            {{ form.example_3(class="form-control form-control-lg") }}
+            <div class="custom-control custom-checkbox">
+              {{ form.correct_answer_3(class="custom-control-input") }}
+              {{ form.correct_answer_3.label(class="custom-control-label") }}
+            </div>
+          </fieldset>
+        </div>
+        <div class="col">
+          <fieldset class="form-group">
+            {{ form.example_4.label(class="form-control-label") }}
+            {{ form.example_4(class="form-control form-control-lg") }}
+            <div class="custom-control custom-checkbox">
+              {{ form.correct_answer_4(class="custom-control-input") }}
+              {{ form.correct_answer_4.label(class="custom-control-label") }}
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <fieldset class="form-group">
+        {{ form.time_limit.label(class="form-control-label") }}
+        {{ form.time_limit(class="form-control form-control-lg") }}
+      </fieldset>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}

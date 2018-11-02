@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="display-4 mb-4">Game - <a href="{{ url_for('my_game_detail', game_id=game.id)}}">{{ game.name }}</a></h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div>
+      <p class="h5 float-left">Questions in this game</p>
+      <a class="btn btn-primary float-right" href="{{ url_for('new_question', game_id=game.id) }}">Create New Question</a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  {% for question in game.questions %}
+  <div class="col-md-12">
+    <div class="card m-2">
+      <div class="card-body">
+        {{ question.question }}
+        <div class="article-metadata">
+          <small class="text-muted mr-2"><strong>Created At</strong>: {{ question.created_at.strftime('%Y-%m-%d') }}</small>
+          <small class="text-muted"><strong>Updated At</strong>: {{ question.updated_at.strftime('%Y-%m-%d') }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

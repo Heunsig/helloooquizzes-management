@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="display-4 mb-4">New Game</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+        {{ form.name.label(class="form-control-label") }}
+        {{ form.name(class="form-control form-control-lg") }}
+      </fieldset>
+      <fieldset class="form-group">
+        {{ form.description.label(class="form-control-label") }}
+        {{ form.description(class="form-control form-control-lg") }}
+      </fieldset>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}
