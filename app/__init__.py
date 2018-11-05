@@ -7,7 +7,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dfasdfkaf;kjs;fasdfajds;fl'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:D8t44m5b@#@localhost:5432/vocab_quiz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})

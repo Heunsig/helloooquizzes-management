@@ -10,18 +10,23 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/api/game/list')
-def game_list():
-    games = Game.query.all()
+@app.route('/test')
+def test_gmae():
+    return 'Hi'
+
+
+@app.route('/api/quiz/list')
+def quiz_list():
+    quizzes = Quiz.query.all()
 
     payload = []
-    for game in games:
+    for quiz in quizzes:
         data = {
-            'id': game.id,
-            'name': game.name,
-            'description': game.description,
-            'creator': game.user.username,
-            'created_at': game.created_at.strftime('%Y-%m-%d')
+            'id': quiz.id,
+            'name': quiz.name,
+            'description': quiz.description,
+            'creator': quiz.user.username,
+            'created_at': quiz.created_at.strftime('%Y-%m-%d')
         }
 
         payload.append(data)
@@ -29,12 +34,12 @@ def game_list():
     return jsonify(result=payload)
 
 
-@app.route('/api/game/<int:game_id>')
-def play_game(game_id):
-    game = Game.query.filter_by(id=game_id).first()
+@app.route('/api/quiz/<int:quiz_id>')
+def play_quiz(quiz_id):
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
 
     questions = []
-    for question in game.questions:
+    for question in quiz.questions:
         choices = []
         for choice in question.choices:
             choice = {
@@ -44,6 +49,7 @@ def play_game(game_id):
             choices.append(choice)
 
         question = {
+            'id': question.id,
             'question': question.question,
             'choices': choices,
             'correct_answer': question.correct_answer,
@@ -53,10 +59,10 @@ def play_game(game_id):
         questions.append(question)
 
     payload = {
-        'game': {
-            'name': game.name,
-            'creator': game.user.username,
-            'game_id': game.id
+        'quiz': {
+            'name': quiz.name,
+            'creator': quiz.user.username,
+            'quiz_id': quiz.id
         },
         'questions': questions
     }
@@ -69,31 +75,31 @@ def home():
     return render_template('home.html')
 
 
-@app.route("/game")
-def game():
-    games = Game.query.order_by(Game.created_at.desc())
-    return render_template('game.html', title='My Games', games=games)
+# @app.route("/quiz")
+# def quiz():
+#     quizzes = Quiz.query.order_by(Quiz.created_at.desc())
+#     return render_template('quiz.html', title='Quizzes', quizzes=quizzes)
 
 
-@app.route("/my_game")
+@app.route("/my_quiz")
 @login_required
-def my_game():
+def my_quiz():
     # page = request.args.get('page', 1, type=int)
-    games = Game.query.order_by(Game.created_at.desc())
-    return render_template('my_game.html', title='My Games', games=games)
+    quizzes = Quiz.query.order_by(Quiz.created_at.desc())
+    return render_template('my_quiz.html', title='My Quizzes', quizzes=quizzes)
 
 
-@app.route("/my_game/<int:game_id>")
+@app.route("/my_quiz/<int:quiz_id>")
 @login_required
-def my_game_detail(game_id):
-    game = Game.query.filter_by(id=game_id).first()
-    return render_template('my_game_detail.html', title=game.name, game=game)
+def my_quiz_detail(quiz_id):
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    return render_template('my_quiz_detail.html', title=quiz.name, quiz=quiz)
 
 
-@app.route('/game/<int:game_id>/create_question', methods=['GET', 'POST'])
+@app.route('/quiz/<int:quiz_id>/create_question', methods=['GET', 'POST'])
 @login_required
-def new_question(game_id):
-    form = NewQuizForm()
+def new_question(quiz_id):
+    form = NewQuestionForm()
     if form.validate_on_submit():
         correct_answer = ''
         if form.correct_answer_1.data:
@@ -110,38 +116,38 @@ def new_question(game_id):
 
         correct_answer = correct_answer[:-1]
 
-        question = Question(game_id=game_id,
+        question = Question(quiz_id=quiz_id,
                             question=form.question.data,
                             correct_answer=correct_answer,
                             time_limit=form.time_limit.data)
 
-        if form.example_1.data:
-            question.choices.append(Choice(content=form.example_1.data, order=1))
-        if form.example_2.data:
-            question.choices.append(Choice(content=form.example_2.data, order=2))
-        if form.example_3.data:
-            question.choices.append(Choice(content=form.example_3.data, order=3))
-        if form.example_4.data:
-            question.choices.append(Choice(content=form.example_4.data, order=4))
+        if form.choice_1.data:
+            question.choices.append(Choice(content=form.choice_1.data, order=1))
+        if form.choice_2.data:
+            question.choices.append(Choice(content=form.choice_2.data, order=2))
+        if form.choice_3.data:
+            question.choices.append(Choice(content=form.choice_3.data, order=3))
+        if form.choice_4.data:
+            question.choices.append(Choice(content=form.choice_4.data, order=4))
 
         db.session.add(question)
         db.session.commit()
-        return redirect(url_for('new_question', game_id=game_id))
-    game = Game.query.filter_by(id=game_id).first()
-    return render_template('new_question.html', form=form, game=game)
+        return redirect(url_for('new_question', quiz_id=quiz_id))
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    return render_template('new_question.html', form=form, quiz=quiz)
 
 
-@app.route('/new_game', methods=['GET', 'POST'])
+@app.route('/new_quiz', methods=['GET', 'POST'])
 @login_required
-def new_game():
-    form = NewGameForm()
+def new_quiz():
+    form = NewQuizForm()
     if form.validate_on_submit():
-        game = Game(name=form.name.data, description=form.description.data, user=current_user)
-        db.session.add(game)
+        quiz = Quiz(name=form.name.data, description=form.description.data, user=current_user)
+        db.session.add(quiz)
         db.session.commit()
-        flash("You've successfully made new game.", 'success')
-        return redirect(url_for('new_question', game_id=game.id))
-    return render_template('new_game.html', form=form)
+        flash("You've successfully made new quiz.", 'success')
+        return redirect(url_for('new_quiz', quiz_id=quiz.id))
+    return render_template('new_quiz.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])

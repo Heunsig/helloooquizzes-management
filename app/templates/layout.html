@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     {% if title %}
-        <title>Vocabulary Quiz - {{ title }}</title>
+        <title>Hellooo Quizzes - {{ title }}</title>
     {% else %}
         <title>Flask Blog</title>
     {% endif %}
@@ -11,25 +11,23 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('home') }}">Vocabulary Quiz</a>
+            <a class="navbar-brand" href="{{ url_for('home') }}">Hellooo Quizzes</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('game') }}">Games</a>
-                    </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('my_game') }}">My Games</a>
+                        <a class="nav-link" href="{{ url_for('my_quiz') }}">My Quizzes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('new_game') }}">New Game</a>
+                        <a class="nav-link" href="{{ url_for('new_quiz') }}">New Quiz</a>
                     </li>
                     {% endif %}
                 </ul>

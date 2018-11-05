@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+      <h1 class="display-4 mb-4">My Quizzes</h1>
+  </div>
+</div>
+<div class="row">
+  {% for quiz in quizzes %}
+  <div class="col-md-12">
+    <div class="card m-2">
+      <div class="card-body">
+        <h5 class="card-title"><a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id) }}">{{ quiz.name }}</a></h5>
+        <p class="card-text">{{ quiz.description }}</p>
+        <p class="card-text">
+          <small class="mr-2 text-muted"><strong>Created At</strong>: {{ quiz.created_at.strftime('%Y-%m-%d') }}</small>
+          <small class="text-muted"><strong>Updated At</strong>: {{ quiz.updated_at.strftime('%Y-%m-%d') }}</small>
+        </p>
+        <a href="#" class="btn btn-primary">Details</a>
+        <a href="#" class="btn btn-danger">Delete</a>
+      </div>
+      <!-- <div class="card-footer text-muted">
+        <div class="article-metadata">
+          <small class="mr-2"><strong>Created At</strong>: {{ quiz.created_at.strftime('%Y-%m-%d') }}</small>
+          <small class=""><strong>Updated At</strong>: {{ quiz.updated_at.strftime('%Y-%m-%d') }}</small>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

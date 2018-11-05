@@ -2,19 +2,19 @@
 {% block content %}
 <div class="row">
   <div class="col-md-12">
-    <h1 class="display-4 mb-4">Game - <a href="{{ url_for('my_game_detail', game_id=game.id)}}">{{ game.name }}</a></h1>
+    <h1 class="display-4 mb-4">Quiz - <a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id)}}">{{ quiz.name }}</a></h1>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
     <div>
-      <p class="h5 float-left">Questions in this game</p>
-      <a class="btn btn-primary float-right" href="{{ url_for('new_question', game_id=game.id) }}">Create New Question</a>
+      <p class="h5 float-left">Questions in this quiz</p>
+      <a class="btn btn-primary float-right" href="{{ url_for('new_question', quiz_id=quiz.id) }}">Create New Question</a>
     </div>
   </div>
 </div>
 <div class="row">
-  {% for question in game.questions %}
+  {% for question in quiz.questions %}
   <div class="col-md-12">
     <div class="card m-2">
       <div class="card-body">

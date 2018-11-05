@@ -2,7 +2,7 @@
 {% block content %}
 <div class="row">
   <div class="col-md-12">
-    <h1 class="display-4 mb-4">Login</h1>
+    <h1 class="display-4 mb-4">New Quiz</h1>
   </div>
 </div>
 <div class="row">
@@ -10,29 +10,29 @@
     <form method="POST" action="">
       {{ form.hidden_tag() }}
       <fieldset class="form-group">
-        {{ form.email.label(class="form-control-label") }}
-        {% if form.email.errors %}
-            {{ form.email(class="form-control form-control-lg is-invalid") }}
+        {{ form.name.label(class="form-control-label") }}
+        {% if form.name.errors %}
+            {{ form.name(class="form-control form-control-lg is-invalid") }}
             <div class="invalid-feedback">
-                {% for error in form.email.errors %}
+                {% for error in form.name.errors %}
                     <span>{{ error }}</span>
                 {% endfor %}
             </div>
         {% else %}
-            {{ form.email(class="form-control form-control-lg") }}
+            {{ form.name(class="form-control form-control-lg") }}
         {% endif %}
       </fieldset>
       <fieldset class="form-group">
-        {{ form.password.label(class="form-control-label") }}
-        {% if form.password.errors %}
-            {{ form.password(class="form-control form-control-lg is-invalid") }}
+        {{ form.description.label(class="form-control-label") }}
+        {% if form.description.errors %}
+            {{ form.description(class="form-control form-control-lg is-invalid") }}
             <div class="invalid-feedback">
-                {% for error in form.password.errors %}
+                {% for error in form.description.errors %}
                     <span>{{ error }}</span>
                 {% endfor %}
             </div>
         {% else %}
-            {{ form.password(class="form-control form-control-lg") }}
+            {{ form.description(class="form-control form-control-lg") }}
         {% endif %}
       </fieldset>
       <div class="form-group">

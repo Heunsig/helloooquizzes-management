@@ -2,7 +2,7 @@
 {% block content %}
 <div class="row">
   <div class="col-md-12">
-    <h1 class="display-4 mb-4">Game - <a href="{{ url_for('my_game_detail', game_id=game.id)}}">{{ game.name }}</a></h1>
+    <h1 class="display-4 mb-4">Quiz - <a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id)}}">{{ quiz.name }}</a></h1>
   </div>
 </div>
 <div class="row">
@@ -11,26 +11,75 @@
       {{ form.hidden_tag() }}
       <fieldset class="form-group">
         {{ form.question.label(class="form-control-label") }}
-        {{ form.question(class="form-control form-control-lg") }}
+        {% if form.question.errors %}
+            {{ form.question(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.question.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.question(class="form-control form-control-lg") }}
+        {% endif %}
       </fieldset>
       <div class="form-row">
         <div class="col">
           <fieldset class="form-group">
-            {{ form.example_1.label(class="form-control-label") }}
-            {{ form.example_1(class="form-control form-control-lg") }}
+            {{ form.choice_1.label(class="form-control-label") }}
+            {% if form.choice_1.errors %}
+                {{ form.choice_1(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.choice_1.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.choice_1(class="form-control form-control-lg") }}
+            {% endif %}
             <div class="custom-control custom-checkbox">
-              {{ form.correct_answer_1(class="custom-control-input") }}
+              {% if form.correct_answer_1.errors %}
+                {{ form.correct_answer_1(class="custom-control-input is-invalid") }}
+              {% else %}
+                {{ form.correct_answer_1(class="custom-control-input") }}
+              {% endif %}
               {{ form.correct_answer_1.label(class="custom-control-label") }}
+              {% if form.correct_answer_1.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.correct_answer_1.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
           </fieldset>
         </div>
         <div class="col">
           <fieldset class="form-group">
-            {{ form.example_2.label(class="form-control-label") }}
-            {{ form.example_2(class="form-control form-control-lg") }}
+            {{ form.choice_2.label(class="form-control-label") }}
+            {% if form.choice_2.errors %}
+                {{ form.choice_2(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.choice_2.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.choice_2(class="form-control form-control-lg") }}
+            {% endif %}
             <div class="custom-control custom-checkbox">
-              {{ form.correct_answer_2(class="custom-control-input") }}
+              {% if form.correct_answer_2.errors %}
+                {{ form.correct_answer_2(class="custom-control-input is-invalid") }}
+              {% else %}
+                {{ form.correct_answer_2(class="custom-control-input") }}
+              {% endif %}
               {{ form.correct_answer_2.label(class="custom-control-label") }}
+              {% if form.correct_answer_2.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.correct_answer_2.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
           </fieldset>
         </div>
@@ -38,28 +87,77 @@
       <div class="form-row">
         <div class="col">
           <fieldset class="form-group">
-            {{ form.example_3.label(class="form-control-label") }}
-            {{ form.example_3(class="form-control form-control-lg") }}
+            {{ form.choice_3.label(class="form-control-label") }}
+            {% if form.choice_3.errors %}
+                {{ form.choice_3(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.choice_3.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.choice_3(class="form-control form-control-lg") }}
+            {% endif %}
             <div class="custom-control custom-checkbox">
-              {{ form.correct_answer_3(class="custom-control-input") }}
+              {% if form.correct_answer_3.errors %}
+                {{ form.correct_answer_3(class="custom-control-input is-invalid") }}
+              {% else %}
+                {{ form.correct_answer_3(class="custom-control-input") }}
+              {% endif %}
               {{ form.correct_answer_3.label(class="custom-control-label") }}
+              {% if form.correct_answer_3.error3 %}
+                <div class="invalid-feedback">
+                  {% for error in form.correct_answer_3.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
           </fieldset>
         </div>
         <div class="col">
           <fieldset class="form-group">
-            {{ form.example_4.label(class="form-control-label") }}
-            {{ form.example_4(class="form-control form-control-lg") }}
+            {{ form.choice_4.label(class="form-control-label") }}
+            {% if form.choice_4.errors %}
+                {{ form.choice_4(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.choice_4.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.choice_4(class="form-control form-control-lg") }}
+            {% endif %}
             <div class="custom-control custom-checkbox">
-              {{ form.correct_answer_4(class="custom-control-input") }}
+              {% if form.correct_answer_4.errors %}
+                {{ form.correct_answer_4(class="custom-control-input is-invalid") }}
+              {% else %}
+                {{ form.correct_answer_4(class="custom-control-input") }}
+              {% endif %}
               {{ form.correct_answer_4.label(class="custom-control-label") }}
+              {% if form.correct_answer_4.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.correct_answer_4.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
           </fieldset>
         </div>
       </div>
       <fieldset class="form-group">
         {{ form.time_limit.label(class="form-control-label") }}
-        {{ form.time_limit(class="form-control form-control-lg") }}
+        {% if form.time_limit.errors %}
+            {{ form.time_limit(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.time_limit.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.time_limit(class="form-control form-control-lg") }}
+        {% endif %}
       </fieldset>
       <div class="form-group">
         {{ form.submit(class="btn btn-outline-info") }}
