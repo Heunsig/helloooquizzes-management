@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="mt-4 text-md-center page-title">
+      Player Log of {{ quiz.name }}
+    </h1>
+  </div>
+  <div class="col-md-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{url_for('my_quiz')}}">My Quizzes</a></li>
+        <li class="breadcrumb-item"><a href="{{url_for('my_quiz_detail', quiz_id=quiz.id)}}">{{ quiz.name }}</a></li>
+        <li class="breadcrumb-item">Player Log</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Score</th>
+          <th scope="col">Played_at</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for player in players %}
+        <tr>
+          <td>{{ player.name }}</td>
+          <td>{{ player.score }}</td>
+          <td>{{ player.created_at.strftime('%m/%d/%Y') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <!-- {% for player in players %}
+    <div> {{player.name}} </div>
+    {% endfor %} -->
+  </div>
+</div>
+{% endblock content %}

@@ -2,7 +2,15 @@
 {% block content %}
 <div class="row">
   <div class="col-md-12">
-      <h1 class="display-4 mb-4">My Quizzes</h1>
+    <h1 class="mt-4 text-md-center page-title">My Quizzes</h1>
+  </div>
+  <div class="col-md-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Quizzes</li>
+      </ol>
+    </nav>
   </div>
 </div>
 <div class="row">
@@ -10,23 +18,116 @@
   <div class="col-md-12">
     <div class="card m-2">
       <div class="card-body">
-        <h5 class="card-title"><a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id) }}">{{ quiz.name }}</a></h5>
-        <p class="card-text">{{ quiz.description }}</p>
+        <h3 class="card-title">{{ quiz.name }} 
+          <small>({{ quiz.questions|length }} Questions)</small>
+          {% if quiz.state == 'active' %}
+            <button type="button" class="btn btn-active btn-sm" onclick="toggle_activation(this, {{quiz.id}})">Active</button>
+          {% else %}
+            <button type="button" class="btn btn-inactive btn-sm" onclick="toggle_activation(this, {{quiz.id}})">Inactive</button>
+          {% endif %}
+        </h3>
         <p class="card-text">
-          <small class="mr-2 text-muted"><strong>Created At</strong>: {{ quiz.created_at.strftime('%Y-%m-%d') }}</small>
-          <small class="text-muted"><strong>Updated At</strong>: {{ quiz.updated_at.strftime('%Y-%m-%d') }}</small>
+          {{ quiz.description if quiz.description else 'No description'}}
         </p>
-        <a href="#" class="btn btn-primary">Details</a>
-        <a href="#" class="btn btn-danger">Delete</a>
+        <p class="card-meta">
+          <span class="card-meta-item text-muted"><strong>Total People who played</strong>: {{ quiz.players|length }}</span>
+          <span class="card-meta-item text-muted"><strong>Created At</strong>: {{ quiz.created_at.strftime('%m/%d/%Y') }}</span>
+          <span class="card-meta-item text-muted"><strong>Updated At</strong>: {{ quiz.updated_at.strftime('%m/%d/%Y') }}</span>
+        </p>
       </div>
-      <!-- <div class="card-footer text-muted">
-        <div class="article-metadata">
-          <small class="mr-2"><strong>Created At</strong>: {{ quiz.created_at.strftime('%Y-%m-%d') }}</small>
-          <small class=""><strong>Updated At</strong>: {{ quiz.updated_at.strftime('%Y-%m-%d') }}</small>
-        </div>
-      </div> -->
+      <div class="card-action">
+        <a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id) }}" class="btn btn-primary">Details</a>
+        <a href="{{ url_for('update_quiz', quiz_id=quiz.id) }}" class="btn btn-edit">Edit</a>
+        <button 
+          type="button" 
+          data-quiz-name="{{ quiz.name }}"
+          data-quiz-id="{{ quiz.id }}"
+          class="btn btn-delete _open-modal-delete" 
+        >
+          Delete
+        </button>
+      </div>
     </div>
   </div>
   {% endfor %}
 </div>
+<div class="modal fade" id="deleteQuizModal" tabindex="-1" role="dialog" aria-labelledby="deleteQuizModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteQuizModalLabel">Delete Quiz</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="deleteQuizModalBody">
+        <!-- Template -->
+        Do you want to delete <%quiz_name%>?
+      </div>
+      <div class="modal-footer" id="test">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button
+          type="button" 
+          class="btn btn-primary"
+          onClick="del_quiz(<%quiz_id%>)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}
+{% block script %}
+<script>
+  let content = $("#deleteQuizModal").html()
+
+  $("._open-modal-delete").on('click', (e) => {
+    $('#deleteQuizModal').modal('show')
+    let quiz_name = $(e.currentTarget).data('quiz-name')
+    let quiz_id = $(e.currentTarget).data('quiz-id')
+    let result = new CaTemplate(content, {
+      quiz_name: quiz_name,
+      quiz_id: quiz_id
+    }).render()
+
+    $("#deleteQuizModal").html(result)
+  })
+
+  function del_quiz(quiz_id) {
+    axios.post(`http://127.0.0.1:5000/quiz/${quiz_id}/delete`).then(res => {
+      window.location.reload()
+    }).catch(err => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    })
+  }
+
+  function toggle_activation(e, quiz_id) {
+    axios.post(`http://127.0.0.1:5000/quiz/${quiz_id}/toggle`).then(res => {
+      console.log('res', res)
+      if (res.data.result === 'active') {
+        $(e).text('Active')
+        $(e).removeClass('btn-inactive').addClass('btn-active')
+      } else {
+        $(e).text('Inactive')
+        $(e).removeClass('btn-active').addClass('btn-inactive')
+      }
+    })
+  }
+</script>
+{% endblock script%}

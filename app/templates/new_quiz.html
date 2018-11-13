@@ -2,7 +2,15 @@
 {% block content %}
 <div class="row">
   <div class="col-md-12">
-    <h1 class="display-4 mb-4">New Quiz</h1>
+    <h1 class="mt-4 text-md-center page-title">New Quiz</h1>
+  </div>
+  <div class="col-md-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">New Quiz</li>
+      </ol>
+    </nav>
   </div>
 </div>
 <div class="row">
@@ -35,8 +43,8 @@
             {{ form.description(class="form-control form-control-lg") }}
         {% endif %}
       </fieldset>
-      <div class="form-group">
-        {{ form.submit(class="btn btn-outline-info") }}
+      <div class="form-group text-md-right">
+        {{ form.submit(class="btn btn-block btn-primary") }}
       </div>
     </form>
   </div>

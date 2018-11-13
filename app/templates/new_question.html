@@ -2,7 +2,28 @@
 {% block content %}
 <div class="row">
   <div class="col-md-12">
-    <h1 class="display-4 mb-4">Quiz - <a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id)}}">{{ quiz.name }}</a></h1>
+    <h1 class="mt-4 text-md-center page-title">
+      {% if mode == 'create' %}
+        Create New
+      {% else %}
+        Edit
+      {% endif %}
+      Question in <a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id)}}">{{ quiz.name }}</a>
+    </h1>
+  </div>
+  <div class="col-md-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{url_for('my_quiz')}}">My Quizzes</a></li>
+        <li class="breadcrumb-item"><a href="{{url_for('my_quiz_detail', quiz_id=quiz.id)}}">{{ quiz.name }}</a></li>
+        {% if mode == 'create' %}
+          <li class="breadcrumb-item active" aria-current="page">Create</li>
+        {% else %}
+          <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        {% endif %}
+      </ol>
+    </nav>
   </div>
 </div>
 <div class="row">
@@ -160,7 +181,12 @@
         {% endif %}
       </fieldset>
       <div class="form-group">
-        {{ form.submit(class="btn btn-outline-info") }}
+        {% if mode == 'create' %}
+          {{ form.submit(class="btn btn-primary btn-block") }}
+        {% else %}
+          {{ form.submit(class="btn btn-edit btn-block") }}
+        {% endif %}
+        
       </div>
     </form>
   </div>

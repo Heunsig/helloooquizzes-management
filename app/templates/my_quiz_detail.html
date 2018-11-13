@@ -2,14 +2,27 @@
 {% block content %}
 <div class="row">
   <div class="col-md-12">
-    <h1 class="display-4 mb-4">Quiz - <a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id)}}">{{ quiz.name }}</a></h1>
+    <h1 class="mt-4 text-md-center page-title">
+      Quiz - <a href="{{ url_for('my_quiz_detail', quiz_id=quiz.id)}}">{{ quiz.name }}</a>
+    </h1>
+  </div>
+  <div class="col-md-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{url_for('my_quiz')}}">My Quizzes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ quiz.name }}</li>
+      </ol>
+    </nav>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div>
-      <p class="h5 float-left">Questions in this quiz</p>
-      <a class="btn btn-primary float-right" href="{{ url_for('new_question', quiz_id=quiz.id) }}">Create New Question</a>
+    <div class="subtitle">
+      <h3 class="subtitle-title page-title">Questions in this quiz ({{ quiz.questions|length }})</h3>
+      <div class="spacer"></div>
+      <a class="btn btn-secondary mr-2" href="{{ url_for('player_log', quiz_id=quiz.id) }}">Player Log</a>
+      <a class="btn btn-primary" href="{{ url_for('new_question', quiz_id=quiz.id) }}">Create New Question</a>
     </div>
   </div>
 </div>
@@ -18,14 +31,117 @@
   <div class="col-md-12">
     <div class="card m-2">
       <div class="card-body">
-        {{ question.question }}
-        <div class="article-metadata">
-          <small class="text-muted mr-2"><strong>Created At</strong>: {{ question.created_at.strftime('%Y-%m-%d') }}</small>
-          <small class="text-muted"><strong>Updated At</strong>: {{ question.updated_at.strftime('%Y-%m-%d') }}</small>
+        <h3 class="card-title">
+          Q: {{ question.question }}
+          {% if question.state == 'active' %}
+            <button type="button" class="btn btn-active btn-sm" onclick="toggle_activation(this, {{question.id}})">Active</button>
+          {% else %}
+            <button type="button" class="btn btn-inactive btn-sm" onclick="toggle_activation(this, {{question.id}})">Inactive</button>
+          {% endif %}
+        </h3>
+        <div>
+        <h6 class="card-title">Choices:</h6>
+          <ul>
+            {% for choice in question.choices|sort(attribute='order') %}
+              {% if choice.order|string in question.correct_answer.split(',') %}
+                <li class="text-active">{{ choice.content }}</li>
+              {% else %}
+                <li class="text-inactive">{{ choice.content }}</li>
+              {% endif%}
+            {% endfor %}
+          </ul>
         </div>
+        <p class="card-meta">
+          <small class="card-meta-item text-muted"><strong>Created At</strong>: {{ question.created_at.strftime('%m/%d/%Y') }}</small>
+          <small class="card-meta-item text-muted"><strong>Updated At</strong>: {{ question.updated_at.strftime('%m/%d/%Y') }}</small>
+        </p>
+      </div>
+      <div class="card-action">
+        <a href="{{ url_for('update_question', question_id=question.id) }}" class="btn btn-edit">Edit</a>
+        <button type="button" class="btn btn-delete _open-modal-delete" data-question="{{ question.question }}" data-question-id="{{ question.id }}">Delete</button>
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
+<div class="modal fade" id="deleteQuestionModal" tabindex="-1" role="dialog" aria-labelledby="deleteQuestionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteQuestionModalLabel">Delete Question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="deleteQuestionModalBody">
+        <!-- Template -->
+        Do you want to delete "<%question%>"?
+      </div>
+      <div class="modal-footer" id="test">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button
+          type="button" 
+          class="btn btn-primary"
+          onClick="del_question(<%question_id%>)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}
+{% block script %}
+<script>
+  let content = $("#deleteQuestionModal").html()
+
+  $("._open-modal-delete").on('click', (e) => {
+    $('#deleteQuestionModal').modal('show')
+    let question = $(e.currentTarget).data('question')
+    let question_id = $(e.currentTarget).data('question-id')
+    let result = new CaTemplate(content, {
+      question: question,
+      question_id: question_id
+    }).render()
+
+    $("#deleteQuestionModal").html(result)
+  })
+
+  function del_question(question_id) {
+    axios.post(`http://127.0.0.1:5000/question/${question_id}/delete`).then(res => {
+      console.log(res)
+      window.location.reload()
+    }).catch(err => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    })
+  }
+
+  function toggle_activation(e, question_id) {
+    axios.post(`http://127.0.0.1:5000/question/${question_id}/toggle`).then(res => {
+      console.log('res', res)
+      if (res.data.result === 'active') {
+        $(e).text('Active')
+        $(e).removeClass('btn-inactive').addClass('btn-active')
+      } else {
+        $(e).text('Inactive')
+        $(e).removeClass('btn-active').addClass('btn-inactive')
+      }
+    })
+  }
+</script>
+{% endblock script %}

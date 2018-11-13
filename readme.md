@@ -1,5 +1,2 @@
 Version
-0.0.2
-
-Update---------------------------------
-- changed model "Game" -> "Quiz"
+0.0.3

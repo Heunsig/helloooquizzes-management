@@ -1,0 +1,64 @@
+// Your variable overrides
+$body-bg: #efefef94;
+$body-color: #111;
+
+$theme-colors: (
+  "active": #07ad94,
+  "inactive": #b3b3b3,
+  "edit": #ed8234,
+  "delete": #ff4848
+);
+
+// Bootstrap and its default variables
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+.checkbox-invailded:before {
+  background: red;
+}
+
+.is_correct_answer {
+  color: #21dc31;
+}
+
+.hq-nav {
+  background: #49bcad!important;
+}
+
+.page-title {
+  color: #444444;
+}
+
+.breadcrumb {
+  justify-content: center;
+  background-color: transparent;
+}
+
+.card > .card-action {
+  text-align:right;
+  padding: 13px;
+}
+
+.card > .card-body > .card-meta > .card-meta-item{
+  font-size: 15px;
+  margin-right: 10px;
+}
+
+.btn-edit { 
+  color: #fff;
+  background: #ed8234;
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+}
+
+.subtitle > .subtitle-title {
+  padding: 0;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.spacer {
+  flex-grow: 1;
+}

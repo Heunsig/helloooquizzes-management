@@ -30,7 +30,7 @@ class LoginForm(FlaskForm):
 class NewQuizForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(max=30)])
     description = TextAreaField('Description', validators=[Length(max=200)])
-    submit = SubmitField('Create')
+    submit = SubmitField('Submit')
 
 
 class NewQuestionForm(FlaskForm):
@@ -44,7 +44,7 @@ class NewQuestionForm(FlaskForm):
     correct_answer_3 = BooleanField('Choice 3 is correct answer')
     correct_answer_4 = BooleanField('Choice 4 is correct answer')
     time_limit = StringField('Time Limt(sec)', default=20, validators=[DataRequired()])
-    submit = SubmitField('Create')
+    submit = SubmitField('Submit')
 
     def validate_time_limit(form, field):
         if int(field.data) > 1800:
@@ -56,4 +56,4 @@ class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=120)])
     password = PasswordField('Password', validators=[DataRequired(), Length(max=60)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password'), Length(max=60)])
-    submit = SubmitField('Create')
+    submit = SubmitField('Submit')
