@@ -1,3 +1,4 @@
+import os
 from app import app, db, bcrypt, login_manager
 from flask import render_template, url_for, redirect, flash, request, jsonify
 from app.forms import *
@@ -99,7 +100,7 @@ def home():
 def my_quiz():
     # page = request.args.get('page', 1, type=int)
     quizzes = Quiz.query.filter_by(user_id=current_user.id).order_by(Quiz.created_at.desc())
-    return render_template('my_quiz.html', title='My Quizzes', quizzes=quizzes)
+    return render_template('my_quiz.html', title='My Quizzes', quizzes=quizzes, WEB_PATH=os.environ.get('WEB_PATH'))
 
 
 @app.route("/my_quiz/<int:quiz_id>")

@@ -95,7 +95,7 @@
   })
 
   function del_quiz(quiz_id) {
-    axios.post(`http://127.0.0.1:5000/quiz/${quiz_id}/delete`).then(res => {
+    axios.post(`${WEB_PATH}/quiz/${quiz_id}/delete`).then(res => {
       window.location.reload()
     }).catch(err => {
       if (error.response) {
@@ -118,7 +118,7 @@
   }
 
   function toggle_activation(e, quiz_id) {
-    axios.post(`http://127.0.0.1:5000/quiz/${quiz_id}/toggle`).then(res => {
+    axios.post(`${WEB_PATH}/quiz/${quiz_id}/toggle`).then(res => {
       console.log('res', res)
       if (res.data.result === 'active') {
         $(e).text('Active')

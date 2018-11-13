@@ -17,3 +17,10 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+
+IS_PROD = os.environ.get('IS_HEROKU', None)
+
+if IS_PROD:
+    os.environ['WEB_PATH'] = os.environ.get('WEB_PATH_PROD', None)
+else:
+    os.environ['WEB_PATH'] = 'http://127.0.0.1:5000'

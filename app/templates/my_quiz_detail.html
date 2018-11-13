@@ -108,7 +108,7 @@
   })
 
   function del_question(question_id) {
-    axios.post(`http://127.0.0.1:5000/question/${question_id}/delete`).then(res => {
+    axios.post(`${WEB_PATH}/question/${question_id}/delete`).then(res => {
       console.log(res)
       window.location.reload()
     }).catch(err => {
@@ -132,7 +132,7 @@
   }
 
   function toggle_activation(e, question_id) {
-    axios.post(`http://127.0.0.1:5000/question/${question_id}/toggle`).then(res => {
+    axios.post(`${WEB_PATH}/question/${question_id}/toggle`).then(res => {
       console.log('res', res)
       if (res.data.result === 'active') {
         $(e).text('Active')
