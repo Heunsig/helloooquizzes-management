@@ -2,9 +2,8 @@
 
 Members can make quiz games using this app
 
-Player = http://helloooquizzes.com
-
-Management page - https://dashboard.helloooquizzes.com
+Player - http://helloooquizzes.com<br/>
+Management page - https://dashboard.helloooquizzes.com<br/>
 
 ## Version
 
