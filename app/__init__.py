@@ -11,8 +11,8 @@ IS_PROD = os.environ.get('IS_HEROKU', None)
 WEB_PATH = 'http://127.0.0.1:5000'
 DATABASE_URL = 'postgresql://postgres:D8t44m5b@#@localhost:5432/vocab_quiz'
 if IS_PROD:
-    WEB_PATH = os.environ.get('WEB_PATH', None)
-    DATABASE_URL = os.environ.get('DATABASE_URL', None)
+  WEB_PATH = os.environ.get('WEB_PATH', None)
+  DATABASE_URL = os.environ.get('DATABASE_URL', None)
 
 
 app = Flask(__name__)
