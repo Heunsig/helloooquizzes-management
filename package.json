@@ -1,0 +1,22 @@
+{
+  "name": "server2",
+  "version": "1.0.0",
+  "description": "Members can make quiz games using this app",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass --watch app/resources/scss/main.scss:app/static/css/main.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heunsig/helloooquizzes-management.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Heunsig/helloooquizzes-management/issues"
+  },
+  "homepage": "https://github.com/Heunsig/helloooquizzes-management#readme",
+  "dependencies": {
+    "sass": "^1.22.10"
+  }
+}
