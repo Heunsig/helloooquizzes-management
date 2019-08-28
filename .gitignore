@@ -127,3 +127,5 @@ env
 node_modules
 SSLCertificate
 NOTE.txt
+package.json
+package-lock.json
