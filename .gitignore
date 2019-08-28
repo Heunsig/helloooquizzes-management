@@ -126,3 +126,4 @@ dmypy.json
 env
 node_modules
 SSLCertificate
+NOTE.txt
