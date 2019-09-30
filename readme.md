@@ -13,4 +13,4 @@ Members can make quiz games using this application
 ![List](https://heunsig-portfolio.s3.ca-central-1.amazonaws.com/helloooquizzes/quiz_maker_list.gif)
 
 ### Making Quiz
-![Making Quiz](https://heunsig-portfolio.s3.ca-central-1.amazonaws.com/helloooquizzes/quiz_maker_creating.gif)
+![Making Quiz](https://heunsig-portfolio.s3.ca-central-1.amazonaws.com/helloooquizzes/quiz_maker_creating2.gif)
